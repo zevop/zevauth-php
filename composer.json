@@ -3,7 +3,16 @@
     "description": "ZevAuth for PHP: verify sessions, call the backend API, check webhooks. Includes a Laravel integration.",
     "type": "library",
     "license": "MIT",
-    "keywords": ["zevauth", "authentication", "auth", "jwt", "jwks", "webhooks", "laravel", "session"],
+    "keywords": [
+        "zevauth",
+        "authentication",
+        "auth",
+        "jwt",
+        "jwks",
+        "webhooks",
+        "laravel",
+        "session"
+    ],
     "homepage": "https://docs.zevauth.com/sdk/php",
     "authors": [
         {
@@ -34,6 +43,9 @@
         "orchestra/testbench": "^9.0 || ^10.0",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^11.0 || ^12.0"
+    },
+    "conflict": {
+        "laravel/framework": "<11.0"
     },
     "suggest": {
         "guzzlehttp/guzzle": "A PSR-18 HTTP client for fetching keys and calling the API.",
