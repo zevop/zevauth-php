@@ -1,0 +1,46 @@
+name: Release
+
+# Packagist publishes from the tag itself (through its GitHub hook), so
+# this workflow only checks the tag agrees with the code and writes the
+# GitHub Release. A tag whose number differs from ZevAuth\Version::VERSION
+# would tell every API call the wrong version in its user agent.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Tag matches ZevAuth\Version::VERSION
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          code=$(grep -oE "VERSION = '[^']+'" src/Version.php | sed -E "s/VERSION = '(.*)'/\1/")
+          if [ "$tag" != "$code" ]; then
+            echo "::error::Tag v$tag does not match ZevAuth\\Version::VERSION ($code)."
+            exit 1
+          fi
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - run: composer update --no-interaction --no-progress --prefer-dist
+      - run: vendor/bin/phpunit
+
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes --verify-tag
