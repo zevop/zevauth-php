@@ -1,0 +1,75 @@
+{
+    "name": "zevauth/zevauth-php",
+    "description": "ZevAuth for PHP: verify sessions, call the backend API, check webhooks. Includes a Laravel integration.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["zevauth", "authentication", "auth", "jwt", "jwks", "webhooks", "laravel", "session"],
+    "homepage": "https://docs.zevauth.com/sdk/php",
+    "authors": [
+        {
+            "name": "ZevOp Inc.",
+            "homepage": "https://docs.zevauth.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/zevop/zevauth-php/issues",
+        "docs": "https://docs.zevauth.com/sdk/php",
+        "source": "https://github.com/zevop/zevauth-php"
+    },
+    "require": {
+        "php": "^8.1",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "firebase/php-jwt": "^6.10 || ^7.0",
+        "php-http/discovery": "^1.19",
+        "psr/clock": "^1.0",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.1 || ^2.0",
+        "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^7.8",
+        "guzzlehttp/psr7": "^2.6",
+        "orchestra/testbench": "^9.0 || ^10.0",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^11.0 || ^12.0"
+    },
+    "suggest": {
+        "guzzlehttp/guzzle": "A PSR-18 HTTP client for fetching keys and calling the API.",
+        "laravel/framework": "Enables the Laravel integration: middleware, guard, Blade directives and routes."
+    },
+    "autoload": {
+        "psr-4": {
+            "ZevAuth\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ZevAuth\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ZevAuth\\Laravel\\ZevAuthServiceProvider"
+            ],
+            "aliases": {
+                "ZevAuth": "ZevAuth\\Laravel\\Facades\\ZevAuth"
+            }
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse",
+        "sync-fixtures": "php scripts/sync-fixtures.php"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
